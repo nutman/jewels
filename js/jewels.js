@@ -13,11 +13,12 @@ function init(manifest) {
         document.getElementById("header").style.display = "none";
     }
 
-    stage = new createjs.Stage("testCanvas");
+
+
 
     // grab canvas width and height for later calculations:
-    w = stage.canvas.width;
-    h = stage.canvas.height;
+//    w = stage.canvas.width;
+//    h = stage.canvas.height;
 
     loader = new createjs.LoadQueue(false);
 
@@ -27,30 +28,29 @@ function init(manifest) {
     }, this);
 
     loader.addEventListener("complete", function(){
-        handleComplete(manifest);
+        handleComplete(manifest, loader);
     });
     loader.loadManifest(manifest);
     loader.load();
 }
 
-function handleComplete(manifest) {
+function handleComplete(manifest, loader) {
 
     document.getElementById("loader").className = "";
-
+    stage = new createjs.Stage("testCanvas");
     var bitmap;
     var container = new createjs.Container();
     stage.addChild(container);
 
 
     for(var i=0; i<8; i++) {
-        var row = [];
         for(var j=0; j<8; j++) {
             var r = Math.floor(Math.random()*11) % manifest.length;
 
-
+//            bitmap = new createjs.Bitmap(manifest[r].src);
 
             bitmap = new createjs.Bitmap(loader.getResult(manifest[r].id));
-            container.addChild(bitmap);
+
 
             bitmap.x = j*100|0;
             bitmap.y = i*100|0;
@@ -61,16 +61,16 @@ function handleComplete(manifest) {
 //            bitmap.scaleX = bitmap.scaleY = bitmap.scale = Math.random()*0.4+0.6;
             bitmap.name = "jewel_"+i+"_"+j;
             bitmap.cursor = "pointer";
-
+            console.log('bitmap', bitmap);
+            container.addChild(bitmap);
 
 
         }
 //        this.grid.push(row);
-        console.log('bitmap', stage);
 
     }
 
-
+    stage.update();
 
  /*    sky = new createjs.Shape();
     sky.graphics.beginBitmapFill(loader.getResult("sky")).drawRect(0,0,w,h);
