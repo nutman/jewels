@@ -1,8 +1,14 @@
+manifest = [
+    {src:"img/hexagon_1.png", id:"hexagon_1"},
+    {src:"img/hexagon.png", id:"hexagon"},
+    {src:"img/pentagon.png", id:"pentagon"},
+    {src:"img/rhombus.png", id:"rhombus"},
+    {src:"img/sphere.png", id:"sphere"},
+    {src:"img/square.png", id:"square"},
+    {src:"img/triangle.png", id:"triangle"}
+];
 
-var stage, w, h, loader;
-var sky, grant, ground, hill, hill2;
-
-function init() {
+function init(manifest) {
     if (window.top != window) {
         document.getElementById("header").style.display = "none";
     }
@@ -13,23 +19,60 @@ function init() {
     w = stage.canvas.width;
     h = stage.canvas.height;
 
-    manifest = [
-        {src:"assets/runningGrant.png", id:"grant"},
-        {src:"assets/sky.png", id:"sky"},
-        {src:"assets/ground.png", id:"ground"},
-        {src:"assets/parallaxHill1.png", id:"hill"},
-        {src:"assets/parallaxHill2.png", id:"hill2"}
-    ];
-
     loader = new createjs.LoadQueue(false);
-    loader.addEventListener("complete", handleComplete);
+
+    loader.addEventListener("fileload", function(){
+        console.log('loaded_image')
+
+    }, this);
+
+    loader.addEventListener("complete", function(){
+        handleComplete(manifest);
+    });
     loader.loadManifest(manifest);
+    loader.load();
 }
 
-function handleComplete() {
+function handleComplete(manifest) {
+
     document.getElementById("loader").className = "";
 
-    sky = new createjs.Shape();
+    var bitmap;
+    var container = new createjs.Container();
+    stage.addChild(container);
+
+
+    for(var i=0; i<8; i++) {
+        var row = [];
+        for(var j=0; j<8; j++) {
+            var r = Math.floor(Math.random()*11) % manifest.length;
+
+
+
+            bitmap = new createjs.Bitmap(loader.getResult(manifest[r].id));
+            container.addChild(bitmap);
+
+            bitmap.x = j*100|0;
+            bitmap.y = i*100|0;
+//            bitmap.width = 100|0;
+//            bitmap.height = 100|0;
+//            bitmap.regX = bitmap.image.width/2|0;
+//            bitmap.regY = bitmap.image.height/2|0;
+//            bitmap.scaleX = bitmap.scaleY = bitmap.scale = Math.random()*0.4+0.6;
+            bitmap.name = "jewel_"+i+"_"+j;
+            bitmap.cursor = "pointer";
+
+
+
+        }
+//        this.grid.push(row);
+        console.log('bitmap', stage);
+
+    }
+
+
+
+ /*    sky = new createjs.Shape();
     sky.graphics.beginBitmapFill(loader.getResult("sky")).drawRect(0,0,w,h);
 
     var groundImg = loader.getResult("ground");
@@ -58,7 +101,7 @@ function handleComplete() {
     stage.addEventListener("stagemousedown", handleJumpStart);
 
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", tick);
+    createjs.Ticker.addEventListener("tick", tick);*/
 }
 
 function handleJumpStart() {
@@ -80,3 +123,7 @@ function tick(event) {
 
     stage.update(event);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    init(manifest);
+});
