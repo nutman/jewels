@@ -7,123 +7,174 @@ manifest = [
     {src:"img/square.png", id:"square"},
     {src:"img/triangle.png", id:"triangle"}
 ];
+helper_images = [
+    {src:"img/frame.png", id:"frame"}
+];
 
-function init(manifest) {
-    if (window.top != window) {
-        document.getElementById("header").style.display = "none";
+
+
+
+    function init(manifest) {
+        if (window.top != window) {
+            document.getElementById("header").style.display = "none";
+        }
+
+
+        loader = new createjs.LoadQueue(false);
+
+        loader.addEventListener("complete", function () {
+            handleComplete(loader);
+        });
+        loader.loadManifest(manifest);
+        loader.load();
+
+        helper_loader = new createjs.LoadQueue(false);
+        helper_loader.loadManifest(helper_images);
+        helper_loader.load();
     }
 
+    function Jewel(i, j) {
+
+        var r = Math.floor(Math.random() * 11) % manifest.length;
+
+        var bitmap = new createjs.Bitmap(loader.getResult(manifest[r].id));
+
+        bitmap.x = j * 100 | 0;
+        bitmap.y = i * 100 | 0;
+
+        var hit = new createjs.Shape();
+        hit.graphics.beginFill("#000").drawRect(0, 0, bitmap.getBounds().width, bitmap.getBounds().height);
+        bitmap.hitArea = hit;
+
+        bitmap.name = manifest[r].id;
+        bitmap.cursor = "pointer";
+
+        bitmap.addEventListener('click', jewelClick);
+
+        return bitmap;
+
+    }
+
+    function complete(tween) {
+        console.log('lolo');
+        var ball = tween._target;
+    }
+
+var selected = [];
 
 
+    function jewelClick(e) {
 
-    // grab canvas width and height for later calculations:
-//    w = stage.canvas.width;
-//    h = stage.canvas.height;
+        selected.push(e.target);
 
-    loader = new createjs.LoadQueue(false);
+        stage.children.forEach(function (item, i) {
+            if (item.name == "frame") {
 
-    loader.addEventListener("fileload", function(){
-        console.log('loaded_image')
+                if (e.target.x + 100 == item.x && e.target.y == item.y
+                    || e.target.x - 100 == item.x && e.target.y == item.y
+                    || e.target.y + 100 == item.y && e.target.x == item.x
+                    || e.target.y - 100 == item.y && e.target.x == item.x) {
 
-    }, this);
+                    console.log("etarget",e.target);
+                    console.log("item", item);
 
-    loader.addEventListener("complete", function(){
-        handleComplete(manifest, loader);
-    });
-    loader.loadManifest(manifest);
-    loader.load();
-}
+                    createjs.Tween.get(selected[0], true)
 
-function handleComplete(manifest, loader) {
+                        .to({x: e.target.x, y: e.target.y}, 100)
+                        .call(function(){
+                            console.log(item);
+                            console.log(i);
+                            stage.children.splice(i, 1);
 
-    document.getElementById("loader").className = "";
-    stage = new createjs.Stage("testCanvas");
-    var bitmap;
-    var container = new createjs.Container();
-    stage.addChild(container);
+                            stage.update();
+                            selected = [];
+                        })
+                    ;
+                } else {
+                    selected = [];
+                    stage.children.splice(i, 1);
+
+                }
+
+            }
+        });
+
+        var bitmap = new createjs.Bitmap(helper_loader.getResult("frame"));
+        bitmap.x = e.target.x | 0;
+        bitmap.y = e.target.y | 0;
+        bitmap.name = "frame";
+        stage.addChild(bitmap);
+
+        stage.update();
+    }
+
+    function handleComplete(loader) {
+
+        document.getElementById("loader").className = "";
+        stage = new createjs.Stage("testCanvas");
+
+        createjs.Touch.enable(stage);
+        stage.mouseEventsEnabled = true;
+
+        stage.enableMouseOver();
+        var container = new createjs.Container();
+        stage.addChild(container);
 
 
-    for(var i=0; i<8; i++) {
-        for(var j=0; j<8; j++) {
-            var r = Math.floor(Math.random()*11) % manifest.length;
+        for (var i = 0; i < 8; i++) {
+            for (var j = 0; j < 8; j++) {
 
-//            bitmap = new createjs.Bitmap(manifest[r].src);
-
-            bitmap = new createjs.Bitmap(loader.getResult(manifest[r].id));
-
-
-            bitmap.x = j*100|0;
-            bitmap.y = i*100|0;
-//            bitmap.width = 100|0;
-//            bitmap.height = 100|0;
-//            bitmap.regX = bitmap.image.width/2|0;
-//            bitmap.regY = bitmap.image.height/2|0;
-//            bitmap.scaleX = bitmap.scaleY = bitmap.scale = Math.random()*0.4+0.6;
-            bitmap.name = "jewel_"+i+"_"+j;
-            bitmap.cursor = "pointer";
-            console.log('bitmap', bitmap);
-            container.addChild(bitmap);
-
+                container.addChild(new Jewel(i, j));
+            }
 
         }
-//        this.grid.push(row);
+
+        stage.update();
+
 
     }
 
-    stage.update();
 
- /*    sky = new createjs.Shape();
-    sky.graphics.beginBitmapFill(loader.getResult("sky")).drawRect(0,0,w,h);
-
-    var groundImg = loader.getResult("ground");
-    ground = new createjs.Shape();
-    ground.graphics.beginBitmapFill(groundImg).drawRect(0, 0, w+groundImg.width, groundImg.height);
-    ground.tileW = groundImg.width;
-    ground.y = h-groundImg.height;
-
-    hill = new createjs.Bitmap(loader.getResult("hill"));
-    hill.setTransform(Math.random() * w, h-hill.image.height*3-groundImg.height, 3, 3);
-
-    hill2 = new createjs.Bitmap(loader.getResult("hill2"));
-    hill2.setTransform(Math.random() * w, h-hill2.image.height*3-groundImg.height, 3, 3);
-
-    var data = new createjs.SpriteSheet({
-        "images": [loader.getResult("grant")],
-        "frames": {"regX": 0, "height": 292, "count": 64, "regY": 0, "width": 165},
-        // define two animations, run (loops, 1.5x speed) and jump (returns to run):
-        "animations": {"run": [0, 25, "run", 1.5], "jump": [26, 63, "run"]}
-    });
-    grant = new createjs.Sprite(data, "run");
-    grant.setTransform(-200, 90, 0.8, 0.8);
-    grant.framerate = 30;
-
-    stage.addChild(sky, hill, hill2, ground, grant);
-    stage.addEventListener("stagemousedown", handleJumpStart);
-
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener("tick", tick);*/
-}
-
-function handleJumpStart() {
-    grant.gotoAndPlay("jump");
-}
-
-function tick(event) {
-    var deltaS = event.delta/1000;
-    var position = grant.x+150*deltaS;
-
-    var grantW = grant.getBounds().width*grant.scaleX;
-    grant.x = (position >= w) ? -grantW : position;
-
-    ground.x = (ground.x-deltaS*200) % ground.tileW;
-    hill.x = (hill.x - deltaS*30);
-    if (hill.x + hill.image.width*hill.scaleX <= 0) { hill.x = w; }
-    hill2.x = (hill2.x - deltaS*45);
-    if (hill2.x + hill2.image.width*hill2.scaleX <= 0) { hill2.x = w; }
-
-    stage.update(event);
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     init(manifest);
 });
+
+
+
+/*var canvas;
+var stage;
+function init() {
+    if (window.top != window) {
+        document.getElementById("header").style.display = "none";
+    }
+    canvas = document.getElementById("testCanvas");
+    stage = new createjs.Stage(canvas);
+    stage.autoClear = true;
+    var ball = new createjs.Shape();
+    ball.graphics.setStrokeStyle(5, 'round', 'round');
+    ball.graphics.beginStroke(('#000000'));
+    ball.graphics.beginFill("#FF0000").drawCircle(0,0,50);
+    ball.graphics.endStroke();
+    ball.graphics.endFill();
+    ball.graphics.setStrokeStyle(1, 'round', 'round');
+    ball.graphics.beginStroke(('#000000'));
+    ball.graphics.moveTo(0,0);
+    ball.graphics.lineTo(0,50);
+    ball.graphics.endStroke();
+    ball.x = 200;
+    ball.y = -50;
+    var tween = createjs.Tween.get(ball, {loop:true})
+        .to({x:ball.x, y:canvas.height - 55, rotation:-360}, 1500, createjs.Ease.bounceOut)
+        .wait(1000)
+        .to({x:canvas.width-55, rotation:360}, 2500, createjs.Ease.bounceOut)
+        .wait(1000).call(handleComplete)
+        .to({scaleX:2, scaleY:2, x:canvas.width - 110, y:canvas.height-110}, 2500, createjs.Ease.bounceOut)
+        .wait(1000)
+        .to({scaleX:.5, scaleY:.5, x:30, rotation:-360, y:canvas.height-30}, 2500, createjs.Ease.bounceOut);
+    stage.addChild(ball);
+    createjs.Ticker.addEventListener("tick", stage);
+}
+function handleComplete(tween) {
+    var ball = tween._target;
+}*/
