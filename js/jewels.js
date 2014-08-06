@@ -50,6 +50,9 @@ helper_images = [
         bitmap.cursor = "pointer";
 
         bitmap.addEventListener('click', jewelClick);
+        bitmap.addEventListener('tick', function(){
+            console.log('tick')
+        });
 
         return bitmap;
 
@@ -60,7 +63,7 @@ helper_images = [
         var ball = tween._target;
     }
 
-var selected = [];
+    var selected = [];
 
 
     function jewelClick(e) {
@@ -75,28 +78,31 @@ var selected = [];
                     || e.target.y + 100 == item.y && e.target.x == item.x
                     || e.target.y - 100 == item.y && e.target.x == item.x) {
 
-                    console.log("etarget",e.target);
-                    console.log("item", item);
 
-                    createjs.Tween.get(selected[0], true)
+                    createjs.Tween.get(selected[0], {loop: false}, true)
+                        .to({x: e.target.x, y: e.target.y}, 300, createjs.Ease.Ease )
+                        .to({x: selected[0].x, y: selected[0].y}, 300, createjs.Ease.Ease );
 
-                        .to({x: e.target.x, y: e.target.y}, 100)
+                    createjs.Tween.get(e.target, {loop: false}, true)
                         .call(function(){
-                            console.log(item);
-                            console.log(i);
-                            stage.children.splice(i, 1);
-
-                            stage.update();
                             selected = [];
+                            stage.children.splice(i, 1);
+                            stage.update();
                         })
-                    ;
-                } else {
-                    selected = [];
-                    stage.children.splice(i, 1);
+                        .to({x: selected[0].x, y: selected[0].y}, 300, createjs.Ease.Ease )
+                        .to({x: e.target.x, y: e.target.y}, 300, createjs.Ease.Ease )
+
+
+                    createjs.Ticker.addEventListener("tick", stage);
 
                 }
 
+                selected = [];
+                stage.children.splice(i, 1);
+                stage.update();
+
             }
+
         });
 
         var bitmap = new createjs.Bitmap(helper_loader.getResult("frame"));
@@ -139,42 +145,3 @@ var selected = [];
 document.addEventListener('DOMContentLoaded', function() {
     init(manifest);
 });
-
-
-
-/*var canvas;
-var stage;
-function init() {
-    if (window.top != window) {
-        document.getElementById("header").style.display = "none";
-    }
-    canvas = document.getElementById("testCanvas");
-    stage = new createjs.Stage(canvas);
-    stage.autoClear = true;
-    var ball = new createjs.Shape();
-    ball.graphics.setStrokeStyle(5, 'round', 'round');
-    ball.graphics.beginStroke(('#000000'));
-    ball.graphics.beginFill("#FF0000").drawCircle(0,0,50);
-    ball.graphics.endStroke();
-    ball.graphics.endFill();
-    ball.graphics.setStrokeStyle(1, 'round', 'round');
-    ball.graphics.beginStroke(('#000000'));
-    ball.graphics.moveTo(0,0);
-    ball.graphics.lineTo(0,50);
-    ball.graphics.endStroke();
-    ball.x = 200;
-    ball.y = -50;
-    var tween = createjs.Tween.get(ball, {loop:true})
-        .to({x:ball.x, y:canvas.height - 55, rotation:-360}, 1500, createjs.Ease.bounceOut)
-        .wait(1000)
-        .to({x:canvas.width-55, rotation:360}, 2500, createjs.Ease.bounceOut)
-        .wait(1000).call(handleComplete)
-        .to({scaleX:2, scaleY:2, x:canvas.width - 110, y:canvas.height-110}, 2500, createjs.Ease.bounceOut)
-        .wait(1000)
-        .to({scaleX:.5, scaleY:.5, x:30, rotation:-360, y:canvas.height-30}, 2500, createjs.Ease.bounceOut);
-    stage.addChild(ball);
-    createjs.Ticker.addEventListener("tick", stage);
-}
-function handleComplete(tween) {
-    var ball = tween._target;
-}*/
