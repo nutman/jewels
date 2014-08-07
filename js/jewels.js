@@ -13,7 +13,6 @@ helper_images = [
 
 
 
-
     function init(manifest) {
         if (window.top != window) {
             document.getElementById("header").style.display = "none";
@@ -42,6 +41,9 @@ helper_images = [
         bitmap.x = j * 100 | 0;
         bitmap.y = i * 100 | 0;
 
+        bitmap.coordX = j;
+        bitmap.coordY = i;
+
         var hit = new createjs.Shape();
         hit.graphics.beginFill("#000").drawRect(0, 0, bitmap.getBounds().width, bitmap.getBounds().height);
         bitmap.hitArea = hit;
@@ -50,17 +52,12 @@ helper_images = [
         bitmap.cursor = "pointer";
 
         bitmap.addEventListener('click', jewelClick);
-        bitmap.addEventListener('tick', function(){
-            console.log('tick')
-        });
+//        bitmap.addEventListener('tick', function(){
+//            console.log('tick')
+//        });
 
         return bitmap;
 
-    }
-
-    function complete(tween) {
-        console.log('lolo');
-        var ball = tween._target;
     }
 
     var selected = [];
@@ -68,33 +65,28 @@ helper_images = [
 
     function jewelClick(e) {
 
+        console.log(e.target);
+
         selected.push(e.target);
 
         stage.children.forEach(function (item, i) {
             if (item.name == "frame") {
 
-                if (e.target.x + 100 == item.x && e.target.y == item.y
-                    || e.target.x - 100 == item.x && e.target.y == item.y
-                    || e.target.y + 100 == item.y && e.target.x == item.x
-                    || e.target.y - 100 == item.y && e.target.x == item.x) {
-
-
-                    createjs.Tween.get(selected[0], {loop: false}, true)
-                        .to({x: e.target.x, y: e.target.y}, 300, createjs.Ease.Ease )
-                        .to({x: selected[0].x, y: selected[0].y}, 300, createjs.Ease.Ease );
-
-                    createjs.Tween.get(e.target, {loop: false}, true)
-                        .call(function(){
-                            selected = [];
-                            stage.children.splice(i, 1);
-                            stage.update();
-                        })
-                        .to({x: selected[0].x, y: selected[0].y}, 300, createjs.Ease.Ease )
-                        .to({x: e.target.x, y: e.target.y}, 300, createjs.Ease.Ease )
-
-
-                    createjs.Ticker.addEventListener("tick", stage);
-
+                if (e.target.x + 100 == item.x && e.target.y == item.y) {
+                    console.log('shift_left');
+                    replaceJewels(e.target, selected[0], i, 'shift_left');
+                }
+                if (e.target.x - 100 == item.x && e.target.y == item.y) {
+                    console.log('shift_rigth');
+                    replaceJewels(e.target, selected[0], i, 'shift_rigth');
+                }
+                if (e.target.y + 100 == item.y && e.target.x == item.x) {
+                    console.log('shift_up');
+                    replaceJewels(e.target, selected[0], i, 'shift_up');
+                }
+                if (e.target.y - 100 == item.y && e.target.x == item.x) {
+                    console.log('shift_down');
+                    replaceJewels(e.target, selected[0], i, 'shift_down');
                 }
 
                 selected = [];
@@ -114,29 +106,93 @@ helper_images = [
         stage.update();
     }
 
+
+    function checkStage(){
+//        console.log('hello');
+        console.log('hello',container.children[0]);
+
+        var swap = [];
+
+        container.children.forEach(function(elem, i, arr) {
+            swap.push(elem)
+
+            if ( i > 0 && elem.name == swap[0].name /*&& i % 8 == 0*/  ) {
+
+//                console.log('swap ', swap);
+//                console.log('swap length ---------- ', swap.length);
+
+                switch (swap.length) {
+                    case 3:
+                        console.log('swap', swap);
+                        console.log(3);
+                        break;
+                    case 4:
+                        console.log('swap', swap);
+                        console.log(4);
+                        break;
+                    case 5:
+                        console.log('swap', swap);
+                        console.log(5);
+                        break;
+                }
+            } else {
+                swap = [];
+            }
+        })
+
+    }
+
+    var chewField = new createjs.Event('chewField');
+
+    function replaceJewels(target, selected, i, key) {
+        createjs.Tween.get(selected, {loop: false}, true)
+            .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
+
+            .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease );
+
+        createjs.Tween.get(target, {loop: false}, true)
+            .call(function(){
+                selected = [];
+                stage.children.splice(i, 1);
+                stage.update();
+            })
+            .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease )
+            .call( function() {
+                stage.dispatchEvent(chewField)
+            })
+            .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
+
+    }
+
     function handleComplete(loader) {
 
         document.getElementById("loader").className = "";
         stage = new createjs.Stage("testCanvas");
+        createjs.Ticker.addEventListener("tick", stage);
+
 
         createjs.Touch.enable(stage);
         stage.mouseEventsEnabled = true;
 
         stage.enableMouseOver();
-        var container = new createjs.Container();
-        stage.addChild(container);
+        container = new createjs.Container();
+
+
 
 
         for (var i = 0; i < 8; i++) {
+            var container = new createjs.Container();
             for (var j = 0; j < 8; j++) {
 
                 container.addChild(new Jewel(i, j));
             }
-
+            stage.addChild(container);
         }
 
         stage.update();
+        stage.addEventListener("chewField", checkStage);
 
+        console.log('container', stage)
 
     }
 
@@ -145,3 +201,17 @@ helper_images = [
 document.addEventListener('DOMContentLoaded', function() {
     init(manifest);
 });
+
+/*
+ for(var y=0; y<8; y++) {
+ var items = [[y,0]];
+
+ for(var x=1; x<8; x++) {
+ if($this.grid[y][x] != $this.grid[items[0][0]][items[0][1]]) {
+ if(items.length>2) for(var i=0; i<items.length;i++) scores.push(items[i]);
+ items = [];
+ }
+ items.push([y,x]);
+ }
+ if(items.length>2) for(var i=0; i<items.length;i++) scores.push(items[i]);
+ } */
