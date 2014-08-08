@@ -12,25 +12,8 @@ helper_images = [
 ];
 
 
+var jewels = (function(){
 
-    function init(manifest) {
-        if (window.top != window) {
-            document.getElementById("header").style.display = "none";
-        }
-
-
-        loader = new createjs.LoadQueue(false);
-
-        loader.addEventListener("complete", function () {
-            handleComplete(loader);
-        });
-        loader.loadManifest(manifest);
-        loader.load();
-
-        helper_loader = new createjs.LoadQueue(false);
-        helper_loader.loadManifest(helper_images);
-        helper_loader.load();
-    }
 
     function Jewel(i, j) {
 
@@ -52,62 +35,102 @@ helper_images = [
         bitmap.cursor = "pointer";
 
         bitmap.addEventListener('click', jewelClick);
-//        bitmap.addEventListener('tick', function(){
-//            console.log('tick')
-//        });
 
         return bitmap;
 
     }
 
-    var selected = [];
+
+    var selected = [],
+        stage;
 
 
     function jewelClick(e) {
 
-        console.log(e.target);
+//        console.log(e.target);
 
+        var is_exist = true;
         selected.push(e.target);
 
         stage.children.forEach(function (item, i) {
             if (item.name == "frame") {
+//                stage.children.splice(i, 1);
+                stage.removeChild(item);
 
-                if (e.target.x + 100 == item.x && e.target.y == item.y) {
-                    console.log('shift_left');
-                    replaceJewels(e.target, selected[0], i, 'shift_left');
-                }
-                if (e.target.x - 100 == item.x && e.target.y == item.y) {
-                    console.log('shift_rigth');
-                    replaceJewels(e.target, selected[0], i, 'shift_rigth');
-                }
-                if (e.target.y + 100 == item.y && e.target.x == item.x) {
-                    console.log('shift_up');
-                    replaceJewels(e.target, selected[0], i, 'shift_up');
-                }
-                if (e.target.y - 100 == item.y && e.target.x == item.x) {
-                    console.log('shift_down');
-                    replaceJewels(e.target, selected[0], i, 'shift_down');
+                if (e.target.x + 100 == item.x && e.target.y == item.y
+                    || e.target.x - 100 == item.x && e.target.y == item.y
+                    || e.target.y + 100 == item.y && e.target.x == item.x
+                    || e.target.y - 100 == item.y && e.target.x == item.x) {
+
+
+                    console.log('stage', stage);
+
+
+                    replaceJewels(e.target, selected, i);
+//                stage.update();
+
+                    is_exist = false;
+                    console.log('selected', selected);
+                    selected = [];
+
+                } else {
+                    console.log('selected no position', selected)
+
+                    selected.shift();
                 }
 
-                selected = [];
-                stage.children.splice(i, 1);
-                stage.update();
 
             }
 
         });
 
-        var bitmap = new createjs.Bitmap(helper_loader.getResult("frame"));
-        bitmap.x = e.target.x | 0;
-        bitmap.y = e.target.y | 0;
-        bitmap.name = "frame";
-        stage.addChild(bitmap);
+        if (is_exist) {
+            var bitmap = new createjs.Bitmap(helper_loader.getResult("frame"));
+            bitmap.x = e.target.x | 0;
+            bitmap.y = e.target.y | 0;
+            bitmap.name = "frame";
+            stage.addChild(bitmap);
 
-        stage.update();
+            stage.update();
+        }
+
     }
 
 
     function checkStage(){
+
+//        console.log('stage**', stage);
+
+        stage.children.forEach(function(container, i, stage) {
+            var swap = [];
+            container.children.forEach(function(bitmap, i, container) {
+                swap.push(bitmap);
+                if ( i > 0 && bitmap.name == swap[0].name ) {
+
+//                                 console.log('swap', swap);
+                 //                console.log('swap length ---------- ', swap.length);
+
+                     switch (swap.length) {
+                         case 3:
+                         console.log('swap', swap);
+                         console.log(3);
+                         break;
+                         case 4:
+                         console.log('swap', swap);
+                         console.log(4);
+                         break;
+                         case 5:
+                         console.log('swap', swap);
+                         console.log(5);
+                         break;
+                     }
+                 } else {
+                 swap = [];
+                 }
+            })
+        });
+
+/*
 //        console.log('hello');
         console.log('hello',container.children[0]);
 
@@ -116,7 +139,9 @@ helper_images = [
         container.children.forEach(function(elem, i, arr) {
             swap.push(elem)
 
-            if ( i > 0 && elem.name == swap[0].name /*&& i % 8 == 0*/  ) {
+            if ( i > 0 && elem.name == swap[0].name */
+/*&& i % 8 == 0*//*
+  ) {
 
 //                console.log('swap ', swap);
 //                console.log('swap length ---------- ', swap.length);
@@ -139,79 +164,111 @@ helper_images = [
                 swap = [];
             }
         })
+*/
 
     }
 
     var chewField = new createjs.Event('chewField');
 
-    function replaceJewels(target, selected, i, key) {
-        createjs.Tween.get(selected, {loop: false}, true)
-            .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
+    function replaceJewels(target, select, i, key) {
 
-            .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease );
+//        console.log('i -', i);
+//        console.log('target -', target);
 
-        createjs.Tween.get(target, {loop: false}, true)
-            .call(function(){
-                selected = [];
-                stage.children.splice(i, 1);
-                stage.update();
-            })
-            .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease )
-            .call( function() {
-                stage.dispatchEvent(chewField)
-            })
-            .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
+        stage.children.splice(i, 1);
 
-    }
+        var selected = select[0];
 
-    function handleComplete(loader) {
+        var selected_y = select[0].y;
+        var selected_name = select[0].name;
 
-        document.getElementById("loader").className = "";
-        stage = new createjs.Stage("testCanvas");
-        createjs.Ticker.addEventListener("tick", stage);
+        var target_x = target;
+        var target_y = target.y;
+        var target_name = target.name;
 
+        stage.swapChildren(target, select[0]);
 
-        createjs.Touch.enable(stage);
-        stage.mouseEventsEnabled = true;
+        stage.children[target.coordY].children[target.coordX] = selected;
+//        stage.children[target.coordY].children[target.coordX].y = selected_y;
 
-        stage.enableMouseOver();
-        container = new createjs.Container();
+        stage.children[select[0].coordY].children[select[0].coordX] = target_x;
+//        stage.children[select[0].coordY].children[select[0].coordX].y = target_y;
 
 
 
-
-        for (var i = 0; i < 8; i++) {
-            var container = new createjs.Container();
-            for (var j = 0; j < 8; j++) {
-
-                container.addChild(new Jewel(i, j));
-            }
-            stage.addChild(container);
-        }
-
+        selected = [];
         stage.update();
-        stage.addEventListener("chewField", checkStage);
+        stage.dispatchEvent(chewField);
 
-        console.log('container', stage)
+        /*        createjs.Tween.get(selected, {loop: false}, true)
+         .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
 
+         .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease );
+
+         createjs.Tween.get(target, {loop: false}, true)
+         .call(function(){
+         selected = [];
+
+         stage.update();
+         })
+         .to({x: selected.x, y: selected.y}, 500, createjs.Ease.Ease )
+         .call( function() {
+
+         })
+         .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )*/
     }
+
+
+
+    return {
+
+        init: function (manifest) {
+            if (window.top != window) {
+                document.getElementById("header").style.display = "none";
+            }
+
+            loader = new createjs.LoadQueue(false);
+
+            loader.addEventListener("complete", this.handleComplete);
+            loader.loadManifest(manifest);
+            loader.load();
+
+            helper_loader = new createjs.LoadQueue(false);
+            helper_loader.loadManifest(helper_images);
+            helper_loader.load();
+        },
+        handleComplete: function(loader) {
+
+            console.log('helllo')
+
+            document.getElementById("loader").className = "";
+            stage = new createjs.Stage("testCanvas");
+
+            createjs.Ticker.addEventListener("tick", stage);
+
+            createjs.Touch.enable(stage);
+            stage.mouseEventsEnabled = true;
+
+            stage.enableMouseOver();
+
+            for (var i = 0; i < 8; i++) {
+                var container = new createjs.Container();
+                for (var j = 0; j < 8; j++) {
+                    container.addChild(new Jewel(i, j));
+                }
+                stage.addChild(container);
+            }
+
+            stage.addEventListener("chewField", checkStage);
+
+        }
+    }
+})();
+
 
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    init(manifest);
+    jewels.init(manifest);
 });
 
-/*
- for(var y=0; y<8; y++) {
- var items = [[y,0]];
-
- for(var x=1; x<8; x++) {
- if($this.grid[y][x] != $this.grid[items[0][0]][items[0][1]]) {
- if(items.length>2) for(var i=0; i<items.length;i++) scores.push(items[i]);
- items = [];
- }
- items.push([y,x]);
- }
- if(items.length>2) for(var i=0; i<items.length;i++) scores.push(items[i]);
- } */
