@@ -13,7 +13,8 @@ helper_images = [
 
 
 var jewels = (function(){
-
+    selected = [];
+    var stage;
 
     function Jewel(i, j) {
 
@@ -40,21 +41,15 @@ var jewels = (function(){
 
     }
 
-
-    var selected = [],
-        stage;
-
-
     function jewelClick(e) {
 
-//        console.log(e.target);
+        console.log('event======', e.target);
 
         var is_exist = true;
         selected.push(e.target);
 
         stage.children.forEach(function (item, i) {
             if (item.name == "frame") {
-//                stage.children.splice(i, 1);
                 stage.removeChild(item);
 
                 if (e.target.x + 100 == item.x && e.target.y == item.y
@@ -62,32 +57,26 @@ var jewels = (function(){
                     || e.target.y + 100 == item.y && e.target.x == item.x
                     || e.target.y - 100 == item.y && e.target.x == item.x) {
 
-
-                    console.log('stage', stage);
-
+//                    console.log('stage', stage);
 
                     replaceJewels(e.target, selected, i);
-//                stage.update();
 
                     is_exist = false;
-                    console.log('selected', selected);
+//                    console.log('selected[...]', selected);
                     selected = [];
-
+//                    console.log('selected[]', selected);
                 } else {
-                    console.log('selected no position', selected)
+//                    console.log('selected no position', selected);
 
                     selected.shift();
                 }
-
-
             }
-
         });
 
         if (is_exist) {
             var bitmap = new createjs.Bitmap(helper_loader.getResult("frame"));
-            bitmap.x = e.target.x | 0;
-            bitmap.y = e.target.y | 0;
+            bitmap.x = e.target.x || 0;
+            bitmap.y = e.target.y || 0;
             bitmap.name = "frame";
             stage.addChild(bitmap);
 
@@ -110,7 +99,7 @@ var jewels = (function(){
 //                                 console.log('swap', swap);
                  //                console.log('swap length ---------- ', swap.length);
 
-                     switch (swap.length) {
+                    /* switch (swap.length) {
                          case 3:
                          console.log('swap', swap);
                          console.log(3);
@@ -123,48 +112,12 @@ var jewels = (function(){
                          console.log('swap', swap);
                          console.log(5);
                          break;
-                     }
+                     }*/
                  } else {
                  swap = [];
                  }
             })
         });
-
-/*
-//        console.log('hello');
-        console.log('hello',container.children[0]);
-
-        var swap = [];
-
-        container.children.forEach(function(elem, i, arr) {
-            swap.push(elem)
-
-            if ( i > 0 && elem.name == swap[0].name */
-/*&& i % 8 == 0*//*
-  ) {
-
-//                console.log('swap ', swap);
-//                console.log('swap length ---------- ', swap.length);
-
-                switch (swap.length) {
-                    case 3:
-                        console.log('swap', swap);
-                        console.log(3);
-                        break;
-                    case 4:
-                        console.log('swap', swap);
-                        console.log(4);
-                        break;
-                    case 5:
-                        console.log('swap', swap);
-                        console.log(5);
-                        break;
-                }
-            } else {
-                swap = [];
-            }
-        })
-*/
 
     }
 
@@ -172,33 +125,49 @@ var jewels = (function(){
 
     function replaceJewels(target, select, i, key) {
 
-//        console.log('i -', i);
-//        console.log('target -', target);
+//        stage.children.splice(i, 1);
 
-        stage.children.splice(i, 1);
+//        console.log('target--', target);
+//        console.log('select--', select);
 
         var selected = select[0];
-
+        var selected_x = select[0].x;
         var selected_y = select[0].y;
-        var selected_name = select[0].name;
+        var selected_coordX = select[0].coordX;
+        var selected_coordY = select[0].coordY;
+//        var selected_name = select[0].name;
 
-        var target_x = target;
+        var target = target;
+        var target_x = target.x;
         var target_y = target.y;
-        var target_name = target.name;
+        var target_coordX = target.coordX;
+        var target_coordY = target.coordY;
+//        var target_name = target.name;
 
-        stage.swapChildren(target, select[0]);
+//        stage.swapChildren(target, select[0]);
+
+
+//        console.log('var selected***', select);
+//        console.log('var target***', target);
+//        console.log('stageeeeeeeeeeeeeeeeee***', stage);
+
 
         stage.children[target.coordY].children[target.coordX] = selected;
-//        stage.children[target.coordY].children[target.coordX].y = selected_y;
+        stage.children[target.coordY].children[target.coordX].x = target_coordX*100;
+        stage.children[target.coordY].children[target.coordX].y = target_coordY*100;
+        stage.children[target.coordY].children[target.coordX].coordX = target_coordX;
+        stage.children[target.coordY].children[target.coordX].coordY = target_coordY;
 
-        stage.children[select[0].coordY].children[select[0].coordX] = target_x;
-//        stage.children[select[0].coordY].children[select[0].coordX].y = target_y;
+        stage.children[select[0].coordY].children[select[0].coordX] = target;
+        stage.children[select[0].coordY].children[select[0].coordX].x = selected_coordX*100;
+        stage.children[select[0].coordY].children[select[0].coordX].y = selected_coordY*100;
+        stage.children[select[0].coordY].children[select[0].coordX].coordX = selected_coordX;
+        stage.children[select[0].coordY].children[select[0].coordX].coordY = selected_coordY;
 
-
-
-        selected = [];
         stage.update();
         stage.dispatchEvent(chewField);
+
+        console.log('stage', stage)
 
         /*        createjs.Tween.get(selected, {loop: false}, true)
          .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
@@ -217,8 +186,6 @@ var jewels = (function(){
          })
          .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )*/
     }
-
-
 
     return {
 
@@ -239,8 +206,6 @@ var jewels = (function(){
         },
         handleComplete: function(loader) {
 
-            console.log('helllo')
-
             document.getElementById("loader").className = "";
             stage = new createjs.Stage("testCanvas");
 
@@ -260,7 +225,7 @@ var jewels = (function(){
             }
 
             stage.addEventListener("chewField", checkStage);
-
+console.log('stage1', stage)
         }
     }
 })();
