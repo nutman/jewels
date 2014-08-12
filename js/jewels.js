@@ -93,32 +93,52 @@ var jewels = (function(){
         stage.children.forEach(function(container, i, stage) {
             var swap = [];
             container.children.forEach(function(bitmap, i, container) {
+
                 swap.push(bitmap);
-                if ( i > 0 && bitmap.name == swap[0].name ) {
 
+                if ( bitmap.name != swap[0].name && swap.length >= 3 ) {
+                    swap.pop();
+//                    swap.push(bitmap);
 //                                 console.log('swap', swap);
-                 //                console.log('swap length ---------- ', swap.length);
+//                                 console.log('swap length ---------- ', swap.length);
 
-                    /* switch (swap.length) {
-                         case 3:
-                         console.log('swap', swap);
-                         console.log(3);
-                         break;
-                         case 4:
-                         console.log('swap', swap);
-                         console.log(4);
-                         break;
-                         case 5:
-                         console.log('swap', swap);
-                         console.log(5);
-                         break;
-                     }*/
-                 } else {
-                 swap = [];
-                 }
+                    switchJewels(swap);
+
+                    swap = [];
+                } else if ( bitmap.name == swap[0].name && swap[0].name == swap[swap.length -1].name && i == (container.length-1) ) {
+                    switchJewels(swap);
+                } else if ( bitmap.name != swap[0].name && swap.length < 3 ) {
+                    swap.shift();
+                }
             })
         });
 
+    }
+
+    function switchJewels(swap){
+        switch (swap.length) {
+
+            case 3:
+                //                             swap.pop();
+                console.log('swap', swap);
+                console.log(3);
+                break;
+            case 4:
+                //                            swap.pop();
+                console.log('swap', swap);
+                console.log(4);
+                break;
+            case 5:
+                //                            swap.pop();
+                console.log('swap', swap);
+                console.log(5);
+                break;
+            case 6:
+                //                            swap.pop();
+                console.log('unbelievable ', swap);
+                console.log(6);
+                break;
+        }
     }
 
     var chewField = new createjs.Event('chewField');
@@ -147,27 +167,33 @@ var jewels = (function(){
 //        stage.swapChildren(target, select[0]);
 
 
-//        console.log('var selected***', select);
-//        console.log('var target***', target);
 //        console.log('stageeeeeeeeeeeeeeeeee***', stage);
 
 
-        stage.children[target.coordY].children[target.coordX] = selected;
-        stage.children[target.coordY].children[target.coordX].x = target_coordX*100;
-        stage.children[target.coordY].children[target.coordX].y = target_coordY*100;
-        stage.children[target.coordY].children[target.coordX].coordX = target_coordX;
-        stage.children[target.coordY].children[target.coordX].coordY = target_coordY;
+        selected.x = target_coordX*100;
+        selected.y = target_coordY*100;
+        selected.coordX = target_coordX;
+        selected.coordY = target_coordY;
 
-        stage.children[select[0].coordY].children[select[0].coordX] = target;
-        stage.children[select[0].coordY].children[select[0].coordX].x = selected_coordX*100;
-        stage.children[select[0].coordY].children[select[0].coordX].y = selected_coordY*100;
-        stage.children[select[0].coordY].children[select[0].coordX].coordX = selected_coordX;
-        stage.children[select[0].coordY].children[select[0].coordX].coordY = selected_coordY;
+        target.x = selected_coordX*100;
+        target.y = selected_coordY*100;
+        target.coordX = selected_coordX;
+        target.coordY = selected_coordY;
+
+
+        stage.children[target.coordY].children[target.coordX] = target;
+
+
+        stage.children[select[0].coordY].children[select[0].coordX] = selected;
+
+
+//        console.log('1',stage.children[target.coordY].children[target.coordX])
+//        console.log('2',stage.children[select[0].coordY].children[select[0].coordX])
 
         stage.update();
         stage.dispatchEvent(chewField);
 
-        console.log('stage', stage)
+        console.log('stage.children[0]', stage.children[0].children);
 
         /*        createjs.Tween.get(selected, {loop: false}, true)
          .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
