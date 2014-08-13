@@ -15,6 +15,8 @@ helper_images = [
 var jewels = (function(){
     selected = [];
     var stage;
+    var chewField = new createjs.Event('chewField');
+    var slideJewelsEvent = new createjs.Event('slideJewelsEvent');
 
     function Jewel(i, j) {
 
@@ -43,7 +45,7 @@ var jewels = (function(){
 
     function jewelClick(e) {
 
-        console.log('event======', e.target);
+//        console.log('event======', e.target);
 
         var is_exist = true;
         selected.push(e.target);
@@ -89,7 +91,7 @@ var jewels = (function(){
     function checkStage(){
 
 //        console.log('stage**', stage);
-
+        var result = [];
         //      CHECKING ROWS
 
         stage.children.forEach(function(container, i, stage) {
@@ -99,11 +101,15 @@ var jewels = (function(){
                 swap.push(bitmap);
 
                 if ( bitmap.name != swap[0].name && swap.length >= 3 ) {
-                    swap.pop();
-                    switchJewels(swap);
-                    swap = [];
+                    var elem = swap.pop();
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
+                    swap = [elem];
                 } else if ( bitmap.name == swap[0].name && swap[0].name == swap[swap.length -1].name && i == (container.length-1) ) {
-                    switchJewels(swap);
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
                 } else if ( bitmap.name != swap[0].name && swap.length < 3 ) {
                     swap.shift();
                 }
@@ -120,24 +126,56 @@ var jewels = (function(){
 
                 if ( stage.children[i].children[j].name != swap[0].name && swap.length >= 3 ) {
                     swap.pop();
-                    switchJewels(swap);
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
+
+
                     swap = [];
                 } else if ( stage.children[i].children[j].name == swap[0].name
                     && swap[0].name == swap[swap.length -1].name
                     && i == (stage.children.length-1) ) {
-                    switchJewels(swap);
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
                 } else if ( stage.children[i].children[j].name != swap[0].name && swap.length < 3 ) {
                     swap.shift();
                 }
             })
         });
 
-
+        switchJewels(result);
     }
 
-    function switchJewels(swap){
-//        console.log('swaaaaaap', swap);
-        switch (swap.length) {
+    function switchJewels(result){
+//        console.log('result', result);
+
+        for ( var i = 0; i < result.length; i++) {
+//                console.log(i)
+            for ( var j = 0; j < result[i].length; j++) {
+//                console.log(j)
+//                stage.children[result[i][j].coordY].children[result[i][j].coordX].visible = 0;
+
+                console.log(stage.children[result[i][j].coordY].children[result[i][j].coordX]);
+                console.log(stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX]);
+
+//                stage.children[result[i][j].coordY].children[result[i][j].coordX] = stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX];
+
+
+                stage.children[result[i][j].coordY].removeChildAt(result[i][j].coordX);
+                stage.children[result[i][j].coordY].addChildAt( stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX], result[i][j].coordX);
+//                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordY = result[i][j].coordY;
+//                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordX = result[i][j].coordX;
+                stage.children[result[i][j].coordY].children[result[i][j].coordX].y = result[i][j].coordY*100;
+                stage.children[result[i][j].coordY].children[result[i][j].coordX].x = result[i][j].coordX*100;
+                console.log('removed')
+                stage.update();
+            }
+        }
+
+//        stage.dispatchEvent(slideJewelsEvent);
+
+       /* switch (swap.length) {
 
             case 3:
                 console.log('swap', swap);
@@ -155,10 +193,10 @@ var jewels = (function(){
                 console.log('unbelievable ', swap);
                 console.log(6);
                 break;
-        }
+        }*/
     }
 
-    var chewField = new createjs.Event('chewField');
+
 
     function replaceJewels(target, select, i, key) {
 
@@ -168,24 +206,18 @@ var jewels = (function(){
 //        console.log('select--', select);
 
         var selected = select[0];
-        var selected_x = select[0].x;
-        var selected_y = select[0].y;
+
         var selected_coordX = select[0].coordX;
         var selected_coordY = select[0].coordY;
 //        var selected_name = select[0].name;
 
         var target = target;
-        var target_x = target.x;
-        var target_y = target.y;
+
         var target_coordX = target.coordX;
         var target_coordY = target.coordY;
 //        var target_name = target.name;
 
 //        stage.swapChildren(target, select[0]);
-
-
-//        console.log('stageeeeeeeeeeeeeeeeee***', stage);
-
 
         selected.x = target_coordX*100;
         selected.y = target_coordY*100;
@@ -200,12 +232,7 @@ var jewels = (function(){
 
         stage.children[target.coordY].children[target.coordX] = target;
 
-
         stage.children[select[0].coordY].children[select[0].coordX] = selected;
-
-
-//        console.log('1',stage.children[target.coordY].children[target.coordX])
-//        console.log('2',stage.children[select[0].coordY].children[select[0].coordX])
 
         stage.update();
         stage.dispatchEvent(chewField);
@@ -228,6 +255,38 @@ var jewels = (function(){
 
          })
          .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )*/
+    }
+
+    function slideJewels() {
+        console.log('slideJewels');
+
+
+
+        stage.children.forEach(function(container, i, stage) {
+
+            container.children.forEach(function(bitmap, i, container) {
+
+                swap.push(bitmap);
+
+                if ( bitmap.name != swap[0].name && swap.length >= 3 ) {
+                    var elem = swap.pop();
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
+                    swap = [elem];
+                } else if ( bitmap.name == swap[0].name && swap[0].name == swap[swap.length -1].name && i == (container.length-1) ) {
+                    if (swap.length > 2 ) {
+                        result.push(swap);
+                    }
+                } else if ( bitmap.name != swap[0].name && swap.length < 3 ) {
+                    swap.shift();
+                }
+            })
+        });
+
+
+
+
     }
 
     return {
@@ -268,6 +327,7 @@ var jewels = (function(){
             }
 
             stage.addEventListener("chewField", checkStage);
+            stage.addEventListener("slideJewelsEvent", slideJewels);
 console.log('stage1', stage)
         }
     }
