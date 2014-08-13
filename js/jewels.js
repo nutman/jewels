@@ -193,7 +193,7 @@ var jewels = (function(){
         stage.update();
         stage.dispatchEvent(chewField);
 
-        console.log('stage.children[0]', stage.children[0].children);
+        console.log('stage', stage)
 
         /*        createjs.Tween.get(selected, {loop: false}, true)
          .to({x: target.x, y: target.y}, 500, createjs.Ease.Ease )
