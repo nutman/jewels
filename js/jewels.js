@@ -90,6 +90,8 @@ var jewels = (function(){
 
 //        console.log('stage**', stage);
 
+        //      CHECKING ROWS
+
         stage.children.forEach(function(container, i, stage) {
             var swap = [];
             container.children.forEach(function(bitmap, i, container) {
@@ -98,12 +100,7 @@ var jewels = (function(){
 
                 if ( bitmap.name != swap[0].name && swap.length >= 3 ) {
                     swap.pop();
-//                    swap.push(bitmap);
-//                                 console.log('swap', swap);
-//                                 console.log('swap length ---------- ', swap.length);
-
                     switchJewels(swap);
-
                     swap = [];
                 } else if ( bitmap.name == swap[0].name && swap[0].name == swap[swap.length -1].name && i == (container.length-1) ) {
                     switchJewels(swap);
@@ -113,28 +110,48 @@ var jewels = (function(){
             })
         });
 
+        //      CHECKING COLS
+
+        stage.children.forEach(function(container, j) {
+            var swap = [];
+            container.children.forEach(function(bitmap, i, container) {
+
+                swap.push(stage.children[i].children[j]);
+
+                if ( stage.children[i].children[j].name != swap[0].name && swap.length >= 3 ) {
+                    swap.pop();
+                    switchJewels(swap);
+                    swap = [];
+                } else if ( stage.children[i].children[j].name == swap[0].name
+                    && swap[0].name == swap[swap.length -1].name
+                    && i == (stage.children.length-1) ) {
+                    switchJewels(swap);
+                } else if ( stage.children[i].children[j].name != swap[0].name && swap.length < 3 ) {
+                    swap.shift();
+                }
+            })
+        });
+
+
     }
 
     function switchJewels(swap){
+//        console.log('swaaaaaap', swap);
         switch (swap.length) {
 
             case 3:
-                //                             swap.pop();
                 console.log('swap', swap);
                 console.log(3);
                 break;
             case 4:
-                //                            swap.pop();
                 console.log('swap', swap);
                 console.log(4);
                 break;
             case 5:
-                //                            swap.pop();
                 console.log('swap', swap);
                 console.log(5);
                 break;
             case 6:
-                //                            swap.pop();
                 console.log('unbelievable ', swap);
                 console.log(6);
                 break;
