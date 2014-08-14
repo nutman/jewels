@@ -144,32 +144,33 @@ var jewels = (function(){
             })
         });
 
-        switchJewels(result);
+        slideDownJewels(result);
     }
 
-    function switchJewels(result){
-//        console.log('result', result);
+    function slideDownJewels(result){
+        console.log('result', result);
 
         for ( var i = 0; i < result.length; i++) {
 //                console.log(i)
             for ( var j = 0; j < result[i].length; j++) {
-//                console.log(j)
-//                stage.children[result[i][j].coordY].children[result[i][j].coordX].visible = 0;
-
-                console.log(stage.children[result[i][j].coordY].children[result[i][j].coordX]);
-                console.log(stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX]);
 
 //                stage.children[result[i][j].coordY].children[result[i][j].coordX] = stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX];
 
+                for ( var x = result[i][j].coordY; 0 <= x; x-- ) {
 
+
+
+                    console.log('x', x);
+                }
                 stage.children[result[i][j].coordY].removeChildAt(result[i][j].coordX);
-                stage.children[result[i][j].coordY].addChildAt( stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX], result[i][j].coordX);
-//                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordY = result[i][j].coordY;
-//                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordX = result[i][j].coordX;
+                stage.children[result[i][j].coordY].addChildAt( stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX].clone(), result[i][j].coordX );
+                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordY = result[i][j].coordY;
+                stage.children[result[i][j].coordY].children[result[i][j].coordX].coordX = result[i][j].coordX;
                 stage.children[result[i][j].coordY].children[result[i][j].coordX].y = result[i][j].coordY*100;
                 stage.children[result[i][j].coordY].children[result[i][j].coordX].x = result[i][j].coordX*100;
-                console.log('removed')
-                stage.update();
+
+                stage.children[(result[i][j].coordY-1)].children[result[i][j].coordX].visible = 0;
+
             }
         }
 
