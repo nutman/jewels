@@ -8,6 +8,8 @@ BODY, HTML {
     font-weight:		normal;
     color: 				#ccc;
     background-color:	#333;
+    min-height: 100% !important;
+    height: 100%;
 }
 
 BODY {}
@@ -65,4 +67,9 @@ a:hover {
     display: block;
     margin: auto;
     background-image: url('../img/bg.png');
+}
+
+.canvasHolder {
+    height: 100%;
+    display: flex;
 }
