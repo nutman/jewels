@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
