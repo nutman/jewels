@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js" />
+    <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,6 +114,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/img" />
       <recent name="$PROJECT_DIR$/css" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -164,6 +168,7 @@
       <workItem from="1706077837367" duration="857000" />
       <workItem from="1708969612495" duration="637000" />
       <workItem from="1711061333183" duration="13806000" />
+      <workItem from="1711345069370" duration="33000" />
     </task>
     <servers />
   </component>
