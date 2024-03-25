@@ -105,9 +105,10 @@ const jewels = (() => {
   }
 
   function pushSwapToResult(result, swap) {
-    if (swap.length > 2) {
-      result.push(swap);
+    if (swap.length < 3) {
+      return;
     }
+    result.push(swap);
   }
 
   function handleResultAndSwap(result, swap) {
@@ -372,6 +373,4 @@ const jewels = (() => {
   }
 })();
 
-document.addEventListener('DOMContentLoaded', () => {
-  jewels.init();
-});
+document.addEventListener('DOMContentLoaded', jewels.init);

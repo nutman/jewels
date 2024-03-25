@@ -63,7 +63,7 @@ a:hover {
     padding: 10px;
 }
 
-#testCanvas {
+#fieldGrid {
     display: block;
     margin: auto;
     background-image: url('../img/bg.png');

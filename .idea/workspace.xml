@@ -6,74 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/18-machinae_supremacy-lord_krutors_dominion.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/18-machinae_supremacy-lord_krutors_dominion.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/AlphaMaskImage.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/BitmapButton.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/BitmapFont.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/DelayedCall.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Break.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Break.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Death.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Death.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Shot.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Shot.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Spawn.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Game-Spawn.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Segment.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/Ship.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/SpaceRock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/StringUtils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/VectorButton.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bionic.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_flat_30_cccccc_40x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_flat_50_5c5c5c_40x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_glass_40_ffc73d_1x400.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_highlight-hard_20_0972a5_1x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_highlight-soft_33_003147_1x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_highlight-soft_35_222222_1x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_highlight-soft_44_444444_1x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_highlight-soft_80_eeeeee_1x100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-bg_loop_25_000000_21x21.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-icons_222222_256x240.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-icons_4b8e0b_256x240.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-icons_a83300_256x240.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-icons_cccccc_256x240.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/images/ui-icons_ffffff_256x240.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/dark-hive/jquery-ui-1.8.18.custom.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/daisy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/flashplugin-NEXT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/flowers.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/flowers_small.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hacked.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/hacked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/icons.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/image_1_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/image_1_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/image_1_3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/image_1_4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/loader.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/parallaxHill1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/parallaxHill2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/photo-hires.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/photo.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/preloadjs-NEXT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/rainbow-custom.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/rotateDemoBot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/runningGrant.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/runningGrant.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/runningGrantSmall.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/sky.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/soundjs-NEXT.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/sparkle_21x23.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/testSeq.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/tricolore.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/tweenjs-NEXT.min.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/jewels.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/jewels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projectFilesBackup/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
