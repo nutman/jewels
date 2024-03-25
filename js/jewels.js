@@ -317,7 +317,7 @@ const jewels = (() => {
 
   function handleComplete() {
     document.getElementById("loader").className = "";
-    stage = new createjs.Stage("testCanvas");
+    stage = new createjs.Stage("fieldGrid");
 
     createjs.Ticker.addEventListener("tick", stage);
     createjs.Touch.enable(stage);
@@ -373,4 +373,6 @@ const jewels = (() => {
   }
 })();
 
-document.addEventListener('DOMContentLoaded', jewels.init);
+document.addEventListener('DOMContentLoaded', () => {
+  jewels.init()
+});

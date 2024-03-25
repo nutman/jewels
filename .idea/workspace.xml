@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="602b3ca5-601d-4a19-8822-ffab3436ed17" name="Default" comment="Merge branch 'master' of https://github.com/nutman/jewels&#10;&#10;Conflicts:&#10;&#9;js/jewels.js">
+      <change beforePath="$PROJECT_DIR$/.idea/jewels.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jewels.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/jewels.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/jewels.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
